@@ -5,13 +5,14 @@ const { logger } = require("../middlewares/logger");
 const errorHandler = require("../middlewares/errorHandler");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const corsOptions = require("../config/corsOptions");
 
 const app = express();
 const port = 3001;
 
 app.use(logger);
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use(express.static(path.join(__dirname, "..", "public")));
 

@@ -1,13 +1,25 @@
 const path = require("path");
 const express = require("express");
 const router = require("../routes/router");
+const { logger } = require("../middlewares/logger");
+const errorHandler = require("../middlewares/errorHandler");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 const app = express();
 const port = 3001;
 
-app.use("/", express.static(path.join(__dirname, "..", "public")));
+app.use(logger);
 
-app.use("/", router);
+app.use(cors());
+
+app.use(express.static(path.join(__dirname, "..", "public")));
+
+app.use(express.json());
+
+app.use(cookieParser());
+
+app.use(router);
 
 app.all("*", (req, res) => {
     res.status(404);
@@ -19,5 +31,7 @@ app.all("*", (req, res) => {
         res.type("txt").send("404 Not Found");
     }
 });
+
+app.use(errorHandler);
 
 app.listen(port, () => console.log(`Server running on http://localhost:${port}`));

@@ -9,6 +9,7 @@ const cors = require("cors");
 const corsOptions = require("../config/corsOptions");
 const connectDB = require("../config/dbConn");
 const mongoose = require("mongoose");
+const usersRoutes = require("../routes/usersRoutes");
 
 const app = express();
 const port = process.env.PORT;
@@ -26,6 +27,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(router);
+
+app.use("/users", usersRoutes);
 
 app.all("*", (req, res) => {
     res.status(404);
